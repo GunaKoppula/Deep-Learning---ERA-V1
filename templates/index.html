@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Weather App</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <br><br><br>
+        <div><h2>WEATHER APP</h2></div>
+        <br>
+        <div> 
+            <p><i>Get weather details of any city around the world.</i></p>
+        </div>
+        
+        <div class="row">
+            {% block content %}
+                <form action="{{ url_for('index')}}" method="post">
+                <div class="form-group">
+                    <label for="cityName">City Name:</label>
+                    <input type="text" id="cityName" name="cityName" value="{{ cityName }}" placeholder="Enter City Name...">
+                    <button class="submit">Find</button>
+                </div>                    
+            {% endblock %}
+        </div> 
+        <div class="row">
+            {% if data is defined and data %}
+            <table class="table table-bordered">
+            <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Coordinates</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Weather</th>
+                        <th>Wind</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bg-light">{{ data['name'] }}</td>
+                        <td class="bg-light">{{ data['coord']['lon'] }} , {{ data['coord']['lat'] }}</td>
+                        <td class="bg-light">{{ temp_celsius }} °c</td>
+                        <td class="bg-light">{{ data['main']['humidity'] }}%</td>
+                        <td class="bg-light">{{ data['weather'][0]['main'] }}</td>
+                        <td class="bg-light">{{ data['wind']['speed'] }} kmph ({{ data['wind']['deg'] }} deg)</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
